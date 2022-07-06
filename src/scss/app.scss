@@ -1,0 +1,14 @@
+/*  Variables --> $nombreVariable = value;
+*
+*   npm run sass --> Ejectuar SASS y plasma cambios en localhost
+*  
+*   Script configurado en Watch  -- Control + C para detener watch
+*  
+*   npm i -D gulp --> instala gulp desde consola
+*/
+
+$rojo: blue;
+
+h1 {
+    color: $rojo;
+}
