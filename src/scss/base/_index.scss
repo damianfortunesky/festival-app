@@ -1,0 +1,13 @@
+/* Importacion con nueva sintaxis
+*   
+*   1. Necesitas un index por carpeta, con un @foward que apunte los demas archivos de esa carpeta, 
+*      luego solo llamas la carpeta.
+*
+*   2. Para importar usas @use, sirve para acceder al contenido de un archivo en especifico
+*
+*   OBS: Esto mejora la perfomance ya que @use solo crea instancias locales, no importa de manera global, solo al     *        archivo especifico.
+*/
+
+@forward 'variables';
+@forward 'normalize';
+
