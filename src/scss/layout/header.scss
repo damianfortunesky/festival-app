@@ -1,0 +1,60 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+.header {
+    background-color: v.$verde;
+
+    h1 {
+        color: v.$blanco;
+        text-align: center;
+        margin: 2rem;
+
+        @include m.tablet {
+            margin:0;
+        }
+    }
+
+    .contenido-header {
+        padding: 2rem;
+        @include m.tablet {
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+}
+
+.navegacion-principal {
+    //background-color: red;
+    @include m.telefono {
+        //background-color: blue;
+    }
+    @include m.tablet {
+        //background-color: yellow;
+        display: flex;
+        gap: 2rem;
+    }
+    @include m.desktop {
+        //background-color: green;
+    }
+    @include m.desktopXL {
+        //background-color: purple;
+    }
+
+    a {
+        display: block;
+        color: v.$blanco;
+        text-align: center;
+        margin-bottom: 1rem;
+        font-size: 2.4rem;
+
+        @include m.tablet {
+            margin:0;
+        }
+
+        &:hover { // & elimina el espacio para que compile correctamente. Anida el selector a con :hover -> a:hover
+            color: v.$amarillo;
+        }
+    }
+}
+

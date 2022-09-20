@@ -1,0 +1,51 @@
+@use 'variables' as v;
+
+/* Sirven para reutilizar codigo, como si fuera una f(x) en JS
+*  Sirven para reutilizar codigo, como si fuera una f(x) en JS
+*  Debo importar los mixins en los archivo donde los quiera usar --> @use
+*  Admite estructuras de control 
+*
+* OBS --> Ctrl + Shift + B --> abre buscador VS CODE
+*/
+
+@mixin nombreMixin ($parametro: true){   // OBS --> Todo lo que empieza con @ adelante es conocido como directivas
+                                  
+             text-align: center;
+             
+             @if($parametro == false){
+                color: red;
+             }
+                                                
+}                                          
+              
+/*.claseSelector{
+*           @include alias.nombreMixin  // Luego de importarlo con "@use as alias" lo incluyo
+*        }
+*/
+
+
+/* ---------------------------------------------- FIN TEORIA ---------------------------------------------- */
+
+@mixin telefono {
+    @media (min-width: v.$telefono){
+        @content;                 //  @content permite agregar propiedades dentro del mixins desde la clase del selector
+    }
+}
+
+@mixin tablet {
+    @media (min-width: v.$tablet){
+        @content;                
+    }
+}
+
+@mixin desktop {
+    @media (min-width: v.$desktop){
+        @content;                
+    }
+}
+
+@mixin desktopXL {
+    @media (min-width: v.$desktopXL){
+        @content;                
+    }
+}

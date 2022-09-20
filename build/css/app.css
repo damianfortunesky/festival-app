@@ -307,6 +307,64 @@ template {
   display: none;
 }
 
+html {
+  font-size: 62.5%; /* 1rem = 10px */
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+h1, h2, h3 {
+  margin: 0 0 5rem 0;
+}
+
+h1 {
+  font-size: 4rem;
+}
+
+h2 {
+  font-size: 3.6rem;
+}
+
+h3 {
+  font-size: 3rem;
+}
+
+p {
+  font-size: 2rem;
+  color: #242424;
+}
+
+.contenedor {
+  width: 95%;
+  max-width: 120rem;
+  margin: 0 auto;
+}
+
+/* Sirven para reutilizar codigo, como si fuera una f(x) en JS
+*  Sirven para reutilizar codigo, como si fuera una f(x) en JS
+*  Debo importar los mixins en los archivo donde los quiera usar --> @use
+*  Admite estructuras de control 
+*
+* OBS --> Ctrl + Shift + B --> abre buscador VS CODE
+*/
+/*.claseSelector{
+*           @include alias.nombreMixin  // Luego de importarlo con "@use as alias" lo incluyo
+*        }
+*/
+/* ---------------------------------------------- FIN TEORIA ---------------------------------------------- */
 /* Importacion con nueva sintaxis
 *   
 *   1. Necesitas un index por carpeta, con un @foward que apunte los demas archivos de esa carpeta, 
@@ -316,9 +374,50 @@ template {
 *
 *   OBS: Esto mejora la perfomance ya que @use solo crea instancias locales, no importa de manera global, solo al     *        archivo especifico.
 */
-h1 {
-  color: #4CB8B3;
-  text-transform: uppercase;
+.header {
+  background-color: #4CB8B3;
+}
+.header h1 {
+  color: white;
+  text-align: center;
+  margin: 2rem;
+}
+@media (min-width: 768px) {
+  .header h1 {
+    margin: 0;
+  }
+}
+.header .contenido-header {
+  padding: 2rem;
+}
+@media (min-width: 768px) {
+  .header .contenido-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+@media (min-width: 768px) {
+  .navegacion-principal {
+    display: flex;
+    gap: 2rem;
+  }
+}
+.navegacion-principal a {
+  display: block;
+  color: white;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 2.4rem;
+}
+@media (min-width: 768px) {
+  .navegacion-principal a {
+    margin: 0;
+  }
+}
+.navegacion-principal a:hover {
+  color: #FEF46D;
 }
 
 /*  Variables --> $nombreVariable = value;
