@@ -420,6 +420,50 @@ p {
   color: #FEF46D;
 }
 
+.video {
+  position: relative;
+  max-height: 70rem;
+  min-height: 50rem;
+  overflow: hidden;
+}
+.video .overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: rgb(165, 3, 255);
+  background: linear-gradient(270deg, rgba(165, 3, 255, 0.5) 0%, rgba(255, 0, 110, 0.3) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.video video {
+  display: block;
+  width: auto;
+}
+@media (min-width: 768px) {
+  .video video {
+    width: 100%;
+  }
+}
+
+.contenido-video {
+  z-index: 100;
+}
+.contenido-video h2 {
+  color: white;
+  margin: 0;
+  font-size: 7rem;
+}
+.contenido-video p {
+  background-color: #F53756;
+  color: white;
+  display: inline-block;
+  padding: 1rem 2rem;
+  font-weight: 700;
+  font-size: 2.4rem;
+  margin: 0;
+}
+
 /*  Variables --> $nombreVariable = value;
 *
 *   npm run sass --> Ejectuar SASS y plasma cambios en localhost
