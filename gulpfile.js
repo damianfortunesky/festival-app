@@ -14,58 +14,91 @@ function tarea(done) {
     done(); // Las f(x) utilizan callback para indicar que la tarea termino. 
 }
 
-exports.primerTarea = tarea; // primerTarea: identificador // tarea: f(x), no requiere()
+exports.primerTarea = tarea; // primerTarea: identificador // tarea: f(x), no require()
 
 // 3.1 Forma 1: Usamos npx gulp primerTarea para correr, npx puede ejecutar paquetes sin instalarlos globalmente (ventaja)
 // 3.2 Forma 2: En packaje.json --> scripts --> "primerTarea": "gulp tarea" --> npm run primerTarea
 
-// ------------------------------------------ COMPILA SASS --------------------------------------------------//
-//GULP
-const {src, dest, watch, parallel} = require("gulp"); // Es una forma de extraer la dependencia en node_modules 
+// ------------------------------------------ COMPILA GULP --------------------------------------------------//
+
+const { src, dest, watch, parallel } = require('gulp');// Es una forma de extraer la dependencia en node_modules 
+
 //CSS
-const sass = require("gulp-sass")(require('sass')); // Combina gulp + sass 
-const plumber = requiere('gulp-plumber');// No detiene la ejecucion del watch al encontrar errores (complemento)
-//IMAGENES
-const webp = requiere('gulp-webp');
+const sass = require('gulp-sass')(require('sass')); // Combina gulp + sass 
+const plumber = require('gulp-plumber');            // No detiene la ejecucion del watch al encontrar errores (complemento)
 
-function css(done) {               
-    // OBS: pipe() es un accion que se realiza despues de otra. Ejecuta de izquieda a derecha f(x) en secuencia
+//Imagenes
+const cache = require('gulp-cache');
+const imagemin = require('gulp-imagemin');
+const webp = require('gulp-webp');
+const avif = require('gulp-avif');
 
-    src("src/scss/**/*.scss")     // 1. Identificar archivo SASS
+//Tareas
+
+// OBS: pipe() es un accion que se realiza despues de otra. Ejecuta de izquieda a derecha f(x) en secuencia
+
+// OBS: src("src/scss/**/*.scss") -> /**/* de forma recursiva, identifica los archivos dentro de la carpeta SCSS 
+
+function css( done ) {               
+    src("src/scss/**/*.scss")    // 1. Identificar archivo SASS
         .pipe(plumber())
         .pipe( sass())           // 2. Compilarlo 
-        .pipe(dest("build/css")) // 3. Almacenar en disco duro, en carpeta build
+        .pipe(dest("build/css")); // 3. Almacenar en disco duro, en carpeta build
 
     done();          
-}          // OBS: src("src/scss/**/*.scss") -> /**/* de forma recursiva, identifica los archivos dentro de la carpeta SCSS 
+}          
 
-function versionWebp ( done ) {
+function imagenes( done ) { 
+    const opciones = {
+        optimizationLevel: 3
+    }
+
+    src('src/img/**/*.{png,jpg}')
+        .pipe( cache( imagemin(opciones) ) ) //Este procesamiento require que la imagen este en cache
+        .pipe( dest('build/img') );
+    done();
+}
+
+function versionWebp( done ) {  // Busca las imagenes y las convierte a webp
 
     const opciones = {
         quality: 50
-    }
-
-    src('src/img/**/*.{png,jpg}') // Busca las imagenes y las convierte a webp
-    pipe( webp(opciones) )
-    done( dest('build/img'));
+    };
+    src('src/img/**/*.{png,jpg}')
+        .pipe( webp(opciones) )
+        .pipe( dest('build/img') );
+    done();
 }
 
+function versionAvif( done ) {  // Busca las imagenes y las convierte a avif
 
+    const opciones = {
+        quality: 50
+    };
 
+    src('src/img/**/*.{png,jpg}')
+        .pipe( avif(opciones) )
+        .pipe( dest('build/img') );
+    done();
+}
 
-function dev(done) {
-    watch("src/scss/**/*.scss", css) //Utiliza la f(x) = CSS y audita el archivo app.scss
+function dev( done ) {
+    watch('src/scss/**/*.scss', css); //Utiliza la f(x) = CSS y audita el archivo app.scss
 
     done();
 }
 
-exports.css = css; // npx gulp css || npm run css
+exports.css = css;                                                  // npx gulp css || npm run css 
+exports.imagenes = imagenes;
 exports.versionWebp = versionWebp;
-exports.dev = parallel(versionWebp, dev); //Ejecuta las tareas en simultaneo 
+exports.versionAvif = versionAvif;
+
+exports.dev = parallel( imagenes, versionWebp, versionAvif, dev ); //Ejecuta las tareas en simultaneo --> npx gulp dev
 
 
 
 // Para utilizar webp con gulp --> npm install --save-dev gulp-webp
-
+// Para aligerar imagenes --> npm i --save-dev gulp-imagemin@7.1.0 y npm i --save-dev gulp-cache
+// Para formato img avif --> npm install --save-dev gulp-avif
 
 // -----------------------------------------------------------------------------------------------------------//
