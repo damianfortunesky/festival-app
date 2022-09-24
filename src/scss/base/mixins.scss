@@ -10,11 +10,11 @@
 
 @mixin nombreMixin ($parametro: true){   // OBS --> Todo lo que empieza con @ adelante es conocido como directivas
                                   
-             text-align: center;
+            text-align: center;
              
-             @if($parametro == false){
+            @if($parametro == false){
                 color: red;
-             }
+            }
                                                 
 }                                          
               

@@ -20,10 +20,13 @@ exports.primerTarea = tarea; // primerTarea: identificador // tarea: f(x), no re
 // 3.2 Forma 2: En packaje.json --> scripts --> "primerTarea": "gulp tarea" --> npm run primerTarea
 
 // ------------------------------------------ COMPILA SASS --------------------------------------------------//
-
-const {src, dest, watch} = require("gulp"); // Es una forma de extraer la dependencia en node_modules 
+//GULP
+const {src, dest, watch, parallel} = require("gulp"); // Es una forma de extraer la dependencia en node_modules 
+//CSS
 const sass = require("gulp-sass")(require('sass')); // Combina gulp + sass 
 const plumber = requiere('gulp-plumber');// No detiene la ejecucion del watch al encontrar errores (complemento)
+//IMAGENES
+const webp = requiere('gulp-webp');
 
 function css(done) {               
     // OBS: pipe() es un accion que se realiza despues de otra. Ejecuta de izquieda a derecha f(x) en secuencia
@@ -36,6 +39,20 @@ function css(done) {
     done();          
 }          // OBS: src("src/scss/**/*.scss") -> /**/* de forma recursiva, identifica los archivos dentro de la carpeta SCSS 
 
+function versionWebp ( done ) {
+
+    const opciones = {
+        quality: 50
+    }
+
+    src('src/img/**/*.{png,jpg}') // Busca las imagenes y las convierte a webp
+    pipe( webp(opciones) )
+    done( dest('build/img'));
+}
+
+
+
+
 function dev(done) {
     watch("src/scss/**/*.scss", css) //Utiliza la f(x) = CSS y audita el archivo app.scss
 
@@ -43,6 +60,12 @@ function dev(done) {
 }
 
 exports.css = css; // npx gulp css || npm run css
-exports.dev = dev;
+exports.versionWebp = versionWebp;
+exports.dev = parallel(versionWebp, dev); //Ejecuta las tareas en simultaneo 
+
+
+
+// Para utilizar webp con gulp --> npm install --save-dev gulp-webp
+
 
 // -----------------------------------------------------------------------------------------------------------//
