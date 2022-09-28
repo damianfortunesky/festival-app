@@ -54,8 +54,8 @@ function imagenes( done ) {
     }
 
     src('src/img/**/*.{png,jpg}')
-        .pipe( cache( imagemin(opciones) ) ) //Este procesamiento require que la imagen este en cache
-        .pipe( dest('build/img') );
+        .pipe( cache( imagemin(opciones))) //Este procesamiento require que la imagen este en cache
+        .pipe( dest('build/img'));
     done();
 }
 
@@ -65,8 +65,8 @@ function versionWebp( done ) {  // Busca las imagenes y las convierte a webp
         quality: 50
     };
     src('src/img/**/*.{png,jpg}')
-        .pipe( webp(opciones) )
-        .pipe( dest('build/img') );
+        .pipe( webp(opciones))
+        .pipe( dest('build/img'));
     done();
 }
 
@@ -77,28 +77,39 @@ function versionAvif( done ) {  // Busca las imagenes y las convierte a avif
     };
 
     src('src/img/**/*.{png,jpg}')
-        .pipe( avif(opciones) )
-        .pipe( dest('build/img') );
+        .pipe( avif(opciones))
+        .pipe( dest('build/img'));
+    done();
+}
+
+function javascript( done ){
+    src('src/js/**/*.js')
+        .pipe( dest('build/js'));
+
     done();
 }
 
 function dev( done ) {
     watch('src/scss/**/*.scss', css); //Utiliza la f(x) = CSS y audita el archivo app.scss
+    watch('src/js/**/*.js', javascript);
 
     done();
 }
 
+exports.js = javascript;                                            //Lado derecho asocio f(x) creada
 exports.css = css;                                                  // npx gulp css || npm run css 
 exports.imagenes = imagenes;
 exports.versionWebp = versionWebp;
 exports.versionAvif = versionAvif;
 
-exports.dev = parallel( imagenes, versionWebp, versionAvif, dev ); //Ejecuta las tareas en simultaneo --> npx gulp dev
+exports.dev = parallel( imagenes, versionWebp, versionAvif, javascript, dev ); //Ejecuta las tareas en simultaneo --> npx gulp dev
 
 
 
 // Para utilizar webp con gulp --> npm install --save-dev gulp-webp
 // Para aligerar imagenes --> npm i --save-dev gulp-imagemin@7.1.0 y npm i --save-dev gulp-cache
 // Para formato img avif --> npm install --save-dev gulp-avif
+
+//npx gulp dev --> watch f(x)CSS
 
 // -----------------------------------------------------------------------------------------------------------//
