@@ -1,4 +1,4 @@
-//galeria-imagenes DOMContentLoaded – el navegador HTML está completamente cargado y el árbol DOM está construido
+// DOMContentLoaded – el navegador HTML está completamente cargado y el árbol DOM está construido
 
 addEventListener('DOMContentLoaded', function(){
     iniciarApp();
@@ -6,7 +6,29 @@ addEventListener('DOMContentLoaded', function(){
 
 function iniciarApp() {
     crearGaleria();
+    scrollNav();
 };
+
+function scrollNav(){
+    const enlaces = document.querySelectorAll('.navegacion-principal a'); // Seleccionamos enlaces de la nav-bar
+
+    
+
+
+    enlaces.forEach(enlace => {                             // Recorremos los enlaces para poder asignarle un evento, sino tira error
+        enlace.addEventListener('click', function(e){
+            e.preventDefault();                             // Como uso un href=id el comportamiento es redireccionar inmediatamente eliminando el efecto smooth
+
+            const seccionScroll = e.target.attributes.href.value;   
+
+            const seccion = document.querySelector(seccionScroll);
+            
+            seccion.scrollIntoView({ behavior: "smooth" });        
+
+        });
+        
+    });
+}
 
 function crearGaleria(){
     const galeria = document.querySelector('.galeria-imagenes');

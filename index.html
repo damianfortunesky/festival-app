@@ -18,9 +18,9 @@
             <h1>Rock & EDM Festival</h1>
 
             <nav class="navegacion-principal">
-                <a href="#">Line Up</a>
-                <a href="#">Galeria</a>
-                <a href="#">Entradas</a>
+                <a href="#lineup">Line Up</a> <!-- si uso un id, doy efecto scroll hacia la seccion con dicho id -->
+                <a href="#galeria">Galeria</a>
+                <a href="#entradas">Entradas</a>
             </nav>
         </div>
     </header>
@@ -67,7 +67,7 @@
     </section>
 
     <!--Line Up-->
-    <section class="lineup">
+    <section class="lineup" id="lineup">
 
         <h3>Line Up</h3>
 
@@ -213,11 +213,16 @@
         </div> <!--.escenario-contenedor-->  
     </section>
 
-    <section class="galeria contenedor">
+    <section class="galeria contenedor" id="galeria">
         <h3>Galeria</h3>
 
         <ul class="galeria-imagenes"></ul>
     </section>
+
+    <section id="entradas">
+        <h3>Entradas</h3>
+    </section>
+
    <script src="build/js/app.js"></script>
 </body>
 </html>
