@@ -12,9 +12,6 @@ function iniciarApp() {
 function scrollNav(){
     const enlaces = document.querySelectorAll('.navegacion-principal a'); // Seleccionamos enlaces de la nav-bar
 
-    
-
-
     enlaces.forEach(enlace => {                             // Recorremos los enlaces para poder asignarle un evento, sino tira error
         enlace.addEventListener('click', function(e){
             e.preventDefault();                             // Como uso un href=id el comportamiento es redireccionar inmediatamente eliminando el efecto smooth
@@ -22,7 +19,7 @@ function scrollNav(){
             const seccionScroll = e.target.attributes.href.value;   
 
             const seccion = document.querySelector(seccionScroll);
-            
+
             seccion.scrollIntoView({ behavior: "smooth" });        
 
         });
@@ -39,7 +36,6 @@ function crearGaleria(){
     *   De i = 1 a i = 12 el for itera y le asinga ese ese indice al nombre de la imagen para que coincida con los nombres de las img (1-12)
     */
 
-
     for( let i = 1; i <= 12; i++){
         const imagen = document.createElement('picture');
 
@@ -49,8 +45,44 @@ function crearGaleria(){
                 <img  loading="lazy" width="200" height="300" src="build/img/${i}.jpg" alt="Imagen galeria">    
             `;
 
+        imagen.onclick = function(){
+            mostrarImagenGrande(i);
+        };
+
         galeria.appendChild(imagen);  // Agrego al div galeria-imagenes
+
+    }    
+};
+
+function mostrarImagenGrande(id) {
+    const imagen = document.createElement('picture');
+
+        imagen.innerHTML = `
+                <source srcset="build/img/grande/${id}.avif" type="image/avif">
+                <source srcset="build/img/grande/${id}.webp" type="image/webp">              
+                <img  loading="lazy" width="200" height="300" src="build/img/${id}.jpg" alt="Imagen galeria">    
+            `;
+
+    // Creo overlay con la imagen a incrustar
+    const overlay = document.createElement('DIV');
+    overlay.appendChild(imagen);
+    overlay.classList.add('overlay');
+
+    // Boton para cerrar
+    const cerrarFoto = document.createElement('p');
+    cerrarFoto.textContent = 'X';
+    cerrarFoto.classList.add('boton-cerrar');
+
+    // Elimino
+    cerrarFoto.onclick = function() {
+        overlay.remove();
     }
 
+    //Agrego
+    overlay.appendChild(cerrarFoto);
     
-};
+    // Incrusto en HTML 
+    const body = document.querySelector('body');
+    body.appendChild(overlay);
+
+}
