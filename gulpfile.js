@@ -96,7 +96,7 @@ function dev( done ) {
     done();
 }
 
-exports.js = javascript;                                            //Lado derecho asocio f(x) creada
+exports.js = javascript;                                            // Lado derecho asocio f(x) creada
 exports.css = css;                                                  // npx gulp css || npm run css 
 exports.imagenes = imagenes;
 exports.versionWebp = versionWebp;

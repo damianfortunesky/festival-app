@@ -30,26 +30,29 @@ function scrollNav(){
 function crearGaleria(){
     const galeria = document.querySelector('.galeria-imagenes');
 
-    
     /*  Como tengo 12 fotos en src/img/thumb, con el for itero 12 veces para crear cada imagen y agregarle su nombre. 
     *
     *   De i = 1 a i = 12 el for itera y le asinga ese ese indice al nombre de la imagen para que coincida con los nombres de las img (1-12)
     */
 
+    // Arranca en i=1 para que coincida con el nombre de las img almacenadas
     for( let i = 1; i <= 12; i++){
         const imagen = document.createElement('picture');
 
+        // Creo las img con sus diferentes formatos, el indice es igual al nombre de las img
         imagen.innerHTML = `
                 <source srcset="build/img/thumb/${i}.avif" type="image/avif">
                 <source srcset="build/img/thumb/${i}.webp" type="image/webp">              
                 <img  loading="lazy" width="200" height="300" src="build/img/${i}.jpg" alt="Imagen galeria">    
             `;
 
+        // Cuando clickeo
         imagen.onclick = function(){
             mostrarImagenGrande(i);
         };
 
-        galeria.appendChild(imagen);  // Agrego al div galeria-imagenes
+        // Agrego 
+        galeria.appendChild(imagen);  
 
     }    
 };
@@ -68,6 +71,12 @@ function mostrarImagenGrande(id) {
     overlay.appendChild(imagen);
     overlay.classList.add('overlay');
 
+    overlay.onclick = function() {
+        const body = document.querySelector('body');
+        body.style="overflow-y:auto";
+        overlay.remove();
+    }
+   
     // Boton para cerrar
     const cerrarFoto = document.createElement('p');
     cerrarFoto.textContent = 'X';
@@ -75,14 +84,17 @@ function mostrarImagenGrande(id) {
 
     // Elimino
     cerrarFoto.onclick = function() {
+        const body = document.querySelector('body');
+        body.style="overflow-y:auto";
         overlay.remove();
     }
 
     //Agrego
     overlay.appendChild(cerrarFoto);
-    
+
     // Incrusto en HTML 
     const body = document.querySelector('body');
     body.appendChild(overlay);
+    body.style="overflow-y:hidden";
 
 }
