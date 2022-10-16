@@ -631,6 +631,64 @@ img {
   cursor: pointer;
 }
 
+.entradas {
+  padding: 5rem 0;
+}
+.entradas h3 {
+  text-align: center;
+  color: white;
+  margin-bottom: 2rem;
+}
+@media (min-width: 768px) {
+  .entradas .contenedor-entradas {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5rem;
+  }
+}
+
+.pase .nombre-pase {
+  text-align: center;
+  font-size: 2.4rem;
+  color: white;
+}
+.pase-header, .pase-footer {
+  text-align: center;
+  padding: 0.5rem;
+  margin: 0;
+}
+.pase-header {
+  background-color: #F53756;
+}
+.pase-header p {
+  text-transform: uppercase;
+  font-size: 1.6rem;
+  color: white;
+}
+.pase-body {
+  background-color: white;
+}
+.pase-body ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pase-body ul li,
+.pase-body ul :nth-child(odd) {
+  background-color: white;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e1e1e1;
+  font-size: 1.6rem;
+}
+.pase-footer {
+  background-color: #752F97;
+}
+.pase-footer p {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: white;
+}
+
 /*  Variables --> $nombreVariable = value;
 *
 *   npm run sass --> Ejectuar SASS y plasma cambios en localhost
