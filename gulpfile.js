@@ -19,13 +19,17 @@ exports.primerTarea = tarea; // primerTarea: identificador // tarea: f(x), no re
 // 3.1 Forma 1: Usamos npx gulp primerTarea para correr, npx puede ejecutar paquetes sin instalarlos globalmente (ventaja)
 // 3.2 Forma 2: En packaje.json --> scripts --> "primerTarea": "gulp tarea" --> npm run primerTarea
 
-// ------------------------------------------ COMPILA GULP --------------------------------------------------//
+// -------------------------------------------------- COMPILA GULP -------------------------------------------------- //
 
-const { src, dest, watch, parallel } = require('gulp');// Es una forma de extraer la dependencia en node_modules 
+const { src, dest, watch, parallel } = require('gulp'); // Es una forma de extraer la dependencia en node_modules 
 
 //CSS
 const sass = require('gulp-sass')(require('sass')); // Combina gulp + sass 
 const plumber = require('gulp-plumber');            // No detiene la ejecucion del watch al encontrar errores (complemento)
+const autoprefixer = require('autoprefixer');       // Se encarga que de funcione en el browser que le indiques, resuleve problemas de compatibilidad
+const cssnano = require('cssnano');                 // Comprime css para optimizar
+const postcss = require('gulp-postcss');            // Hace transformaciones por medio de autoprefixer y cssnano
+const sourcemaps = require('gulp-sourcemaps');
 
 //Imagenes
 const cache = require('gulp-cache');
@@ -33,20 +37,25 @@ const imagemin = require('gulp-imagemin');
 const webp = require('gulp-webp');
 const avif = require('gulp-avif');
 
-//Tareas
+// Javascript
+const terser = require('gulp-terser-js');
+
+// -------------------------------------------------- f(x) = Tareas -------------------------------------------------- //
 
 // OBS: pipe() es un accion que se realiza despues de otra. Ejecuta de izquieda a derecha f(x) en secuencia
 
 // OBS: src("src/scss/**/*.scss") -> /**/* de forma recursiva, identifica los archivos dentro de la carpeta SCSS 
 
-function css( done ) {               
-    src("src/scss/**/*.scss")    // 1. Identificar archivo SASS
-        .pipe(plumber())
-        .pipe( sass())           // 2. Compilarlo 
-        .pipe(dest("build/css")); // 3. Almacenar en disco duro, en carpeta build
-
-    done();          
-}          
+function css( done ) {
+    src('src/scss/**/*.scss') // 1. Identificar el archivo .SCSS a compilar
+        .pipe(sourcemaps.init())
+        .pipe( plumber())
+        .pipe( sass() ) // 2. Compilarlo
+        .pipe( postcss([ autoprefixer(), cssnano() ]) )
+        .pipe(sourcemaps.write('.'))
+        .pipe( dest('build/css') ) // 3. Almacenar en disco duro, en carpeta build
+    done();
+}
 
 function imagenes( done ) { 
     const opciones = {
@@ -82,34 +91,33 @@ function versionAvif( done ) {  // Busca las imagenes y las convierte a avif
     done();
 }
 
-function javascript( done ){
+function javascript( done ) {
     src('src/js/**/*.js')
-        .pipe( dest('build/js'));
+        .pipe(sourcemaps.init())
+        .pipe( terser() )
+        .pipe(sourcemaps.write('.'))
+        .pipe(dest('build/js'));
 
     done();
 }
 
 function dev( done ) {
-    watch('src/scss/**/*.scss', css); //Utiliza la f(x) = CSS y audita el archivo app.scss
+    watch('src/scss/**/*.scss', css);   //Utiliza la f(x) = CSS y audita el archivo app.scss
     watch('src/js/**/*.js', javascript);
-
     done();
 }
 
-exports.js = javascript;                                            // Lado derecho asocio f(x) creada
-exports.css = css;                                                  // npx gulp css || npm run css 
+// Lado derecho asocio f(x) creada
+
+exports.css = css;   // npx gulp css || npm run css 
+exports.js = javascript;    
 exports.imagenes = imagenes;
 exports.versionWebp = versionWebp;
 exports.versionAvif = versionAvif;
-
-exports.dev = parallel( imagenes, versionWebp, versionAvif, javascript, dev ); //Ejecuta las tareas en simultaneo --> npx gulp dev
-
+exports.dev = parallel( imagenes, versionWebp, versionAvif, javascript, dev) ; // Ejecuta las tareas en simultaneo
 
 
 // Para utilizar webp con gulp --> npm install --save-dev gulp-webp
 // Para aligerar imagenes --> npm i --save-dev gulp-imagemin@7.1.0 y npm i --save-dev gulp-cache
 // Para formato img avif --> npm install --save-dev gulp-avif
-
-//npx gulp dev --> watch f(x)CSS
-
-// -----------------------------------------------------------------------------------------------------------//
+// npx gulp dev --> watch f(x)CSS

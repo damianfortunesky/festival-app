@@ -11,7 +11,7 @@
   "author": "Damian Fortunesky",
   "license": "ISC",
   "devDependencies": {
-    "cssnano": "^5.1.0",
+    "cssnano": "^5.1.13",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^8.0.0",
     "gulp-avif": "^1.1.1",
@@ -29,5 +29,9 @@
     "gulp-webp": "^4.0.1",
     "sass": "^1.49.9",
     "terser": "^4.8.1"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.12",
+    "postcss": "^8.4.18"
   }
 }
