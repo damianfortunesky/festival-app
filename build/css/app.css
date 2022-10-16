@@ -689,6 +689,16 @@ img {
   color: white;
 }
 
+.site-footer {
+  background-color: #F53756;
+  padding: 1rem;
+}
+.site-footer p {
+  margin: 0;
+  text-align: center;
+  color: white;
+}
+
 /*  Variables --> $nombreVariable = value;
 *
 *   npm run sass --> Ejectuar SASS y plasma cambios en localhost
