@@ -13,6 +13,10 @@ html {
 
 body {
     font-family: v.$fuente_principal; //Uso la variable haciendo referencia a v 
+
+    &.body-scroll {
+        padding-top: 8.6rem;
+    }
 }
 
 a { text-decoration: none;}

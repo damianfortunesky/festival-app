@@ -321,6 +321,9 @@ html {
 body {
   font-family: "Montserrat", sans-serif;
 }
+body.body-scroll {
+  padding-top: 8.6rem;
+}
 
 a {
   text-decoration: none;
@@ -384,6 +387,15 @@ img {
 */
 .header {
   background-color: #4CB8B3;
+}
+@media (min-width: 768px) {
+  .header.fijo {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    box-shadow: 0.1rem 0.2rem 0.3rem #333;
+  }
 }
 .header h1 {
   color: white;
